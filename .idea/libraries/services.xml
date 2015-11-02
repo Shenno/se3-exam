@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="services">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/incidentservice-1.0/incidentservice-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/shipservice-1.0/shipservice-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
