@@ -12,19 +12,25 @@ import java.io.IOException;
  */
 public class ShipService {
     private ShipServiceProxy proxy;
+    private String response = null;
+
+    private final String CALL = "www.services4se3.com/shipservice/";
 
     public ShipService() {
         proxy = new ShipServiceProxy();
     }
 
+    /**
+     *
+     * @param shipID
+     * @return
+     */
     public String callShipService(String shipID) {
-        String call = "www.services4se3.com/shipservice/";
-        call += shipID;
         try {
-            return proxy.get(call);
+            response = proxy.get(CALL + shipID);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return response;
     }
 }

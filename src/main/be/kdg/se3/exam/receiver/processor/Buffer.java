@@ -18,13 +18,11 @@ import java.util.*;
  */
 public class Buffer {
     private final int STAY_IN_BUFFER;
-    private final int CLEAR_CACHE_AFTER;
     private Map<String,Collection<ShipMessage>> shipMsgs = new HashMap<>();
     private Map<String,String> shipInfos = new HashMap<>();
 
     public Buffer(int buffer, int cache) {
         this.STAY_IN_BUFFER = buffer;
-        this.CLEAR_CACHE_AFTER = cache;
     }
 
     public Map<String, Collection<ShipMessage>> getShipMsgs() {

@@ -1,15 +1,9 @@
 package be.kdg.se3.exam.receiver.broker;
 
-import be.kdg.se3.exam.receiver.converter.XmlToObject;
-import be.kdg.se3.exam.receiver.database.DatabaseListener;
-import be.kdg.se3.exam.receiver.entity.ShipMessage;
-import be.kdg.se3.exam.receiver.processor.Buffer;
+import be.kdg.se3.exam.receiver.database.Database;
 import com.rabbitmq.client.*;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by   Shenno Willaert
@@ -23,9 +17,9 @@ public class InputRabbitMQ implements InputChannel {
     private Channel channel;
     private Consumer consumer;
     private final String QUEUE_NAME;
-    private DatabaseListener database;
+    private Database database;
 
-    public InputRabbitMQ(String queueName, DatabaseListener database) {
+    public InputRabbitMQ(String queueName, Database database) {
         this.QUEUE_NAME = queueName;
         this.database = database;
     }

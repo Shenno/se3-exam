@@ -1,12 +1,10 @@
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
 import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
 import be.kdg.se3.exam.receiver.converter.ObjectToXml;
+import be.kdg.se3.exam.receiver.database.DummyDatabase;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
-import be.kdg.se3.exam.receiver.processor.Buffer;
-import be.kdg.se3.exam.receiver.service.ShipService;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 

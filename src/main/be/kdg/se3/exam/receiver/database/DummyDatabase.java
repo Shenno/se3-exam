@@ -1,6 +1,7 @@
+package be.kdg.se3.exam.receiver.database;
+
 import be.kdg.se3.exam.receiver.broker.InputChannelException;
 import be.kdg.se3.exam.receiver.converter.XmlToObject;
-import be.kdg.se3.exam.receiver.database.DatabaseListener;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import be.kdg.se3.exam.receiver.processor.Buffer;
 
@@ -8,12 +9,12 @@ import be.kdg.se3.exam.receiver.processor.Buffer;
  * Created by   Shenno Willaert
  * Date         2/11/2015
  * Project      se3-exam
- * Package      PACKAGE_NAME
+ * Package      be.kdg.se3.exam.receiver.database
  */
-public class DummyDatabase implements DatabaseListener {
+public class DummyDatabase implements Database {
     private Buffer buffer;
     public DummyDatabase() {
-        this.buffer = new Buffer(1,1);
+        this.buffer = new Buffer(1000,1000);
     }
 
     @Override
