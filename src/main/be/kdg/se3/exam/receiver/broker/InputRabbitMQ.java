@@ -46,6 +46,7 @@ public class InputRabbitMQ implements InputChannel {
                     throws IOException {
                 String message = new String(body, "UTF-8");
                 database.onInsert(message);
+
             }
         };
         channel.basicConsume(QUEUE_NAME, true, consumer);
