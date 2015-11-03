@@ -14,12 +14,11 @@ import java.io.Writer;
  * Package      be.kdg.se3.exam.receiver.converter
  */
 public class ObjectToXml {
-    private Writer writer;
     public ObjectToXml() {
     }
     public String convert(Object o)
     {
-        writer = new StringWriter();
+        Writer writer = new StringWriter();
         try {
             Marshaller.marshal(o, writer);
         }

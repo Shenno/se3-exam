@@ -2,6 +2,8 @@ import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
 import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
 import be.kdg.se3.exam.receiver.converter.ObjectToXml;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
+import be.kdg.se3.exam.receiver.processor.Buffer;
+import be.kdg.se3.exam.receiver.service.ShipService;
 
 import java.util.Date;
 
@@ -22,20 +24,21 @@ public class BigTestMain {
         shipMessage.setPlant("Banaan");
         shipMessage.setDistanceToLoadingBay(500);
         ShipMessage shipMessage2 = new ShipMessage();
-        shipMessage2.setShipID("11112");
+        shipMessage2.setShipID("11111");
         shipMessage2.setTimeStamp(new Date());
         shipMessage2.setDistanceToLoadingBay(400);
 
         DummyDatabase dl = new DummyDatabase();
-        InputRabbitMQ input = new InputRabbitMQ("hello", dl);
+        InputRabbitMQ input = new InputRabbitMQ("POSITION_MESSAGES", dl);
         input.init();
         input.startMonitoring();
         ObjectToXml converter = new ObjectToXml();
-        OutputRabbitMQ output = new OutputRabbitMQ("hello");
+        OutputRabbitMQ output = new OutputRabbitMQ("POSITION_MESSAGES");
         output.init();
         output.sendMessage(converter.convert(shipMessage));
         output.sendMessage(converter.convert(shipMessage2));
         output.stop();
+
 
     }
 }
