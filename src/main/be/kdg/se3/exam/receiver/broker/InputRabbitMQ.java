@@ -33,7 +33,7 @@ public class InputRabbitMQ implements InputChannel {
             channel = connection.createChannel();
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         } catch (Exception e) {
-            //todo
+
         }
     }
 
