@@ -6,6 +6,9 @@ import be.kdg.se3.exam.receiver.processor.Buffer;
 import be.kdg.se3.exam.receiver.service.ShipService;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by   Shenno Willaert
@@ -17,6 +20,7 @@ public class BigTestMain {
     public static void main(String[] argv) {
         new BigTestMain().init();
     }
+
     public void init() {
         ShipMessage shipMessage = new ShipMessage();
         shipMessage.setShipID("11111");
@@ -38,7 +42,19 @@ public class BigTestMain {
         output.sendMessage(converter.convert(shipMessage));
         output.sendMessage(converter.convert(shipMessage2));
         output.stop();
+        sched(shipMessage);
+    }
 
+    private void sched(ShipMessage shipMessage) {
+        final Timer timer = new Timer();
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(new Date().getTime()-shipMessage.getTimeStamp().getTime());
+            }
+
+        }, 5000, 5000);
 
     }
 }
