@@ -6,6 +6,10 @@ package be.kdg.se3.exam.receiver.broker;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.broker
  */
+
+/**
+ * Interface for an output messagechannel (broker)
+ */
 public interface OutputChannel {
     void init();
     void sendMessage(String message);

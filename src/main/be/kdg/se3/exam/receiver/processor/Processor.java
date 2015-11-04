@@ -1,6 +1,8 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
+import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
+import be.kdg.se3.exam.receiver.converter.ObjectToXml;
 import be.kdg.se3.exam.receiver.database.DummyDatabase;
 
 /**
@@ -10,15 +12,23 @@ import be.kdg.se3.exam.receiver.database.DummyDatabase;
  * Package      be.kdg.se3.exam.receiver.processor
  */
 public class Processor {
-    private InputRabbitMQ input;
-    private DummyDatabase database;
+    private InputRabbitMQ inputPosMsgs;
+    private DummyDatabase dbPosMsgs;
     private Buffer buffer;
 
     public Processor() {
-
+        buffer = new Buffer();
+        dbPosMsgs = new DummyDatabase(buffer);
+        inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", dbPosMsgs);
     }
 
-    public void start() {
 
+    public void start() {
+        inputPosMsgs.init();
+        inputPosMsgs.startMonitoring();
+    }
+
+    public void createETA() {
+        System.out.println(buffer.getShipMsgs().toString());
     }
 }

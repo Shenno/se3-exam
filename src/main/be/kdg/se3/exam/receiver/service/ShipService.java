@@ -1,7 +1,8 @@
 package be.kdg.se3.exam.receiver.service;
-
+import org.apache.log4j.Logger;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import be.kdg.se3.proxy.ShipServiceProxy;
+import org.apache.log4j.Priority;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,6 +19,8 @@ public class ShipService {
     private final int TIME_IN_CACHE;
     private final int RETRY;
     private Map<String, String> cache = new HashMap<>();
+    private final Logger logger = Logger.getLogger(this.getClass());
+
 
     public ShipService() {
         this.proxy = new ShipServiceProxy();
@@ -49,7 +52,7 @@ public class ShipService {
             @Override
             public void run() {
                 cache.clear();
-                System.out.println("Cache cleared");
+                System.out.println("==Cachecleared==");
             }
         }, TIME_IN_CACHE, TIME_IN_CACHE);
 

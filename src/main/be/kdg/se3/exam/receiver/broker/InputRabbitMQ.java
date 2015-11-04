@@ -11,16 +11,20 @@ import java.io.IOException;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.broker
  */
+
+/**
+ * Class that is going to monitor messages on queue using RabbitMQ
+ */
 public class InputRabbitMQ implements InputChannel {
     private ConnectionFactory factory;
     private Connection connection;
     private Channel channel;
     private Consumer consumer;
-    private final String QUEUE_NAME;
+    private final String queue;
     private Database database;
 
     public InputRabbitMQ(String queueName, Database database) {
-        this.QUEUE_NAME = queueName;
+        this.queue = queueName;
         this.database = database;
     }
 
@@ -31,7 +35,7 @@ public class InputRabbitMQ implements InputChannel {
             factory.setHost("localhost");
             connection = factory.newConnection();
             channel = connection.createChannel();
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(queue, false, false, false, null);
         } catch (Exception e) {
 
         }
@@ -46,10 +50,9 @@ public class InputRabbitMQ implements InputChannel {
                     throws IOException {
                 String message = new String(body, "UTF-8");
                 database.onInsert(message);
-
             }
         };
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.basicConsume(queue, true, consumer);
         } catch (Exception e) {
 
         }

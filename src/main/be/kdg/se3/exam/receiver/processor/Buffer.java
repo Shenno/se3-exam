@@ -18,13 +18,13 @@ import java.util.*;
  * It also calls the external service to receive information about a specified shipID.
  */
 public class Buffer {
-    private final int BUFFERTIME;
+    private static final int BUFFERTIME = 10000;
     private ShipService service;
     private Map<String,ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
     private Map<String,String> shipInfos = new HashMap<>();
 
-    public Buffer(int timeInBuffer) {
-        this.BUFFERTIME = timeInBuffer;
+
+    public Buffer() {
         this.service = new ShipService();
         checkBufferTime();
     }
@@ -38,7 +38,6 @@ public class Buffer {
         Collection<ShipMessage> c = shipMsgs.get(sm.getShipID());
         c.add(sm);
         shipInfos.put(sm.getShipID(),service.callShipService(sm.getShipID()));
-        System.out.println(shipInfos.toString());
     }
 
     private void checkBufferTime() {
@@ -53,6 +52,7 @@ public class Buffer {
                     ArrayList<ShipMessage> shipMessages = entry.getValue();
                     if (now.getTime() - shipMessages.get(shipMessages.size()-1).getTimeStamp().getTime() >= BUFFERTIME) {
                         iter.remove();
+                        shipInfos.remove(entry.getKey());
                         System.out.printf("%s is eruit\n",entry.getKey());
                     }
                 }
