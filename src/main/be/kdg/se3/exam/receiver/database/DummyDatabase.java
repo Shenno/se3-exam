@@ -14,7 +14,7 @@ import be.kdg.se3.exam.receiver.processor.Buffer;
 public class DummyDatabase implements Database {
     private Buffer buffer;
     public DummyDatabase() {
-        this.buffer = new Buffer(1000,1000);
+        this.buffer = new Buffer(10000);
     }
 
     @Override
