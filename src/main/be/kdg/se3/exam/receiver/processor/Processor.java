@@ -15,11 +15,13 @@ public class Processor {
     private InputRabbitMQ inputPosMsgs;
     private DummyDatabase dbPosMsgs;
     private Buffer buffer;
+    private ETAController etaController;
 
-    public Processor() {
-        buffer = new Buffer();
-        dbPosMsgs = new DummyDatabase(buffer);
-        inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", dbPosMsgs);
+    public Processor(ETAController etaController) {
+        this.etaController = etaController;
+        this.buffer = new Buffer(etaController);
+        this.dbPosMsgs = new DummyDatabase(buffer);
+        this.inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", dbPosMsgs);
     }
 
 
@@ -28,7 +30,5 @@ public class Processor {
         inputPosMsgs.startMonitoring();
     }
 
-    public void createETA() {
-        System.out.println(buffer.getShipMsgs().toString());
-    }
+
 }

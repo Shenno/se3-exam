@@ -9,7 +9,7 @@ import java.util.Date;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.entity
  */
-public class ShipMessage implements Serializable{
+public class ShipMessage {
     private String shipID;
     private String plant;
     private Date timeStamp;

@@ -16,15 +16,14 @@ import java.util.*;
 public class ShipService {
     private ShipServiceProxy proxy;
     private final String CALL = "www.services4se3.com/shipservice/";
-    private final int TIME_IN_CACHE;
+    private final int TIME_IN_CACHE; // IN SECONDS
     private final int RETRY;
     private Map<String, String> cache = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 
-
     public ShipService() {
         this.proxy = new ShipServiceProxy();
-        this.TIME_IN_CACHE = 5000;
+        this.TIME_IN_CACHE = 20;
         this.RETRY = 5;
         checkCacheTime();
     }
@@ -40,6 +39,7 @@ public class ShipService {
         String response = new String();
         try {
             response = proxy.get(CALL + shipID);
+            cache.put(shipID, response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class ShipService {
                 cache.clear();
                 System.out.println("==Cachecleared==");
             }
-        }, TIME_IN_CACHE, TIME_IN_CACHE);
+        }, TIME_IN_CACHE * 1000, TIME_IN_CACHE * 1000);
 
     }
 
