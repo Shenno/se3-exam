@@ -1,9 +1,6 @@
 package be.kdg.se3.exam.receiver.processor;
 
-import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
-import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
-import be.kdg.se3.exam.receiver.converter.ObjectToXml;
-import be.kdg.se3.exam.receiver.database.DummyDatabase;
+import be.kdg.se3.exam.receiver.broker.InputShipMsgRabbitMQ;
 
 /**
  * Created by   Shenno Willaert
@@ -12,16 +9,10 @@ import be.kdg.se3.exam.receiver.database.DummyDatabase;
  * Package      be.kdg.se3.exam.receiver.processor
  */
 public class Processor {
-    private InputRabbitMQ inputPosMsgs;
-    private DummyDatabase dbPosMsgs;
-    private Buffer buffer;
-    private ETAController etaController;
+    private InputShipMsgRabbitMQ inputPosMsgs;
 
-    public Processor(ETAController etaController) {
-        this.etaController = etaController;
-        this.buffer = new Buffer(etaController);
-        this.dbPosMsgs = new DummyDatabase(buffer);
-        this.inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", dbPosMsgs);
+    public Processor() {
+        this.inputPosMsgs = new InputShipMsgRabbitMQ("POSITION_MESSAGES");
     }
 
 

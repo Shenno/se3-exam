@@ -2,9 +2,7 @@ package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by   Shenno Willaert
@@ -13,7 +11,7 @@ import java.util.Map;
  * Package      be.kdg.se3.exam.receiver.processor
  */
 public class ETAController implements ETAControllerInterface {
-    private Map<String,ETALogType> mapETA;
+    private Map<String, ETALogType> mapETA;
 
     public ETAController() {
         mapETA = new HashMap<>();
@@ -25,12 +23,28 @@ public class ETAController implements ETAControllerInterface {
 
     @Override
     public void addETAParameter(String shipID, ETALogType logType) {
-        mapETA.put(shipID,logType);
+        mapETA.put(shipID, logType);
     }
 
     @Override
     public void deleteETAParameter(String shipID) {
         mapETA.remove(shipID);
+    }
+
+    @Override
+    public void checkETAStatus(ShipMessage shipMessage) {
+        ArrayList<ShipMessage> shipMessages = Buffer.getShipMsgs(shipMessage.getShipID());
+        if (mapETA.containsKey(shipMessage.getShipID()) && shipMessages.size() > 1) {
+            ShipMessage secondLast = shipMessages.get(shipMessages.size() - 2);
+            ShipMessage last = shipMessages.get(shipMessages.size() - 1);
+            if (mapETA.get(shipMessage.getShipID()) == ETALogType.NEW_MSG) {
+                calcETA(secondLast, last);
+            } else if (mapETA.get(shipMessage.getShipID()) == ETALogType.NEW_POS) {
+                if (!secondLast.getPlant().equals(last.getPlant())) {
+                    calcETA(secondLast, last);
+                }
+            }
+        }
     }
 
     @Override

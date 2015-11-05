@@ -10,6 +10,6 @@ import be.kdg.se3.exam.receiver.entity.ShipMessage;
  * Package      be.kdg.se3.exam.receiver.database
  */
 public interface Database {
-    void onInsert(String s);
+    void onInsert(ShipMessage s);
     void onError(InputChannelException exception);
 }

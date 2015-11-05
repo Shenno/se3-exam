@@ -21,18 +21,16 @@ import java.util.*;
 public class Buffer {
     private static final int BUFFERTIME = 20; // in seconds
     private ShipService service;
-    private Map<String, ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
-    private Map<String, String> shipInfos = new HashMap<>();
-    private ETAController etaController;
+    private static Map<String, ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
+    private static Map<String, String> shipInfos = new HashMap<>();
 
-    public Buffer(ETAController etaController) {
+    public Buffer() {
         this.service = new ShipService();
-        this.etaController = etaController;
         checkBufferTime();
     }
 
-    public Map<String, ArrayList<ShipMessage>> getShipMsgs() {
-        return shipMsgs;
+    public static ArrayList<ShipMessage> getShipMsgs(String shipID) {
+        return shipMsgs.get(shipID);
     }
 
     public void addMsg(ShipMessage sm) {
@@ -43,24 +41,6 @@ public class Buffer {
         /* deleten die shit */ //todo
         JsonToShipInfo converter = new JsonToShipInfo();
         System.out.println(converter.convert(service.callShipService(sm.getShipID())));
-
-        if (c.size() > 1)
-            checkETAUpdates(sm, c);
-    }
-
-    private void checkETAUpdates(ShipMessage sm, ArrayList<ShipMessage> shipMessages) {
-        Map<String, ETALogType> etaMap = etaController.getMapETA();
-        if (etaMap.containsKey(sm.getShipID())) {
-            ShipMessage secondLast = shipMessages.get(shipMessages.size() - 2);
-            ShipMessage last = shipMessages.get(shipMessages.size() - 1);
-            if (etaMap.get(sm.getShipID()) == ETALogType.NEW_MSG) {
-                etaController.calcETA(secondLast, last);
-            } else if (etaMap.get(sm.getShipID()) == ETALogType.NEW_POS) {
-                if (!secondLast.getPlant().equals(last.getPlant())) {
-                    etaController.calcETA(secondLast, last);
-                }
-            }
-        }
     }
 
     private void checkBufferTime() {
@@ -73,7 +53,7 @@ public class Buffer {
                 while (iter.hasNext()) {
                     Map.Entry<String, ArrayList<ShipMessage>> entry = iter.next();
                     ArrayList<ShipMessage> shipMessages = entry.getValue();
-                    if (now.getTime() - shipMessages.get(shipMessages.size() - 1).getTimeStamp().getTime() >= BUFFERTIME) {
+                    if (now.getTime() - shipMessages.get(shipMessages.size() - 1).getTimeStamp().getTime() >= (BUFFERTIME * 1000) ) {
                         iter.remove();
                         shipInfos.remove(entry.getKey());
                         System.out.printf("%s is eruit\n", entry.getKey());

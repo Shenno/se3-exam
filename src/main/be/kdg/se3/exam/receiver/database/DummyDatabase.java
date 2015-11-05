@@ -12,17 +12,10 @@ import be.kdg.se3.exam.receiver.processor.Buffer;
  * Package      be.kdg.se3.exam.receiver.database
  */
 public class DummyDatabase implements Database {
-    private Buffer buffer;
-    public DummyDatabase(Buffer b) {
-        this.buffer = b;
-    }
 
     @Override
-    public void onInsert(String s) {
-        XmlToObject converter = new XmlToObject();
-        ShipMessage shipMessage = (ShipMessage) converter.convert(s, ShipMessage.class);
+    public void onInsert(ShipMessage shipMessage) {
         System.out.printf("Inserted: %s \n", shipMessage.toString());
-        this.buffer.addMsg(shipMessage);
     }
 
     @Override

@@ -21,5 +21,6 @@ public interface ETAControllerInterface {
      */
     void addETAParameter(String shipID, ETALogType logType);
     void deleteETAParameter(String shipID);
+    void checkETAStatus(ShipMessage shipMessage);
     void calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg);
 }
