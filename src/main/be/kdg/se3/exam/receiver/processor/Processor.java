@@ -1,6 +1,6 @@
 package be.kdg.se3.exam.receiver.processor;
 
-import be.kdg.se3.exam.receiver.broker.InputShipMsgRabbitMQ;
+import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
 
 /**
  * Created by   Shenno Willaert
@@ -9,16 +9,27 @@ import be.kdg.se3.exam.receiver.broker.InputShipMsgRabbitMQ;
  * Package      be.kdg.se3.exam.receiver.processor
  */
 public class Processor {
-    private InputShipMsgRabbitMQ inputPosMsgs;
+    private InputRabbitMQ inputPosMsgs;
+    private InputRabbitMQ inputIncidentMsgs;
+    private ShipMessageHandler shipMessageHandler;
+    private IncidentMessageHandler incidentMessageHandler;
 
     public Processor() {
-        this.inputPosMsgs = new InputShipMsgRabbitMQ("POSITION_MESSAGES");
+        // Handlers
+        this.shipMessageHandler = new ShipMessageHandler();
+        this.incidentMessageHandler = new IncidentMessageHandler();
+        // InputChannels
+        this.inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", this.shipMessageHandler);
+        this.inputIncidentMsgs = new InputRabbitMQ("INCIDENT_MESSAGES", this.incidentMessageHandler);
     }
 
 
     public void start() {
         inputPosMsgs.init();
         inputPosMsgs.startMonitoring();
+
+        inputIncidentMsgs.init();
+        inputIncidentMsgs.startMonitoring();
     }
 
 

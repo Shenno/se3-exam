@@ -10,7 +10,11 @@ import be.kdg.se3.exam.receiver.entity.ShipMessage;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.processor
  */
-public class ShipMessageHandler {
+
+/**
+ * Class that handles the incoming shippositionmessages.
+ */
+public class ShipMessageHandler implements MessageHandler {
     private Buffer buffer;
     private DummyDatabase database;
     private ETAController etaController;
@@ -22,8 +26,8 @@ public class ShipMessageHandler {
         etaController.addETAParameter("1234567", ETALogType.NEW_MSG); //todo WEGDOEN
     }
 
-    public void handleShipMessage(String msg) {
-        ShipMessage inputShipMsg = convertXml(msg);
+    public void handleMessage(String message) {
+        ShipMessage inputShipMsg = convertXml(message);
         database.onInsert(inputShipMsg);
         buffer.addMsg(inputShipMsg);
         etaController.checkETAStatus(inputShipMsg);

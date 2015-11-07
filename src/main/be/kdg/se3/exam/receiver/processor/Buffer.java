@@ -1,7 +1,6 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
-import be.kdg.se3.exam.receiver.converter.XmlToObject;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import be.kdg.se3.exam.receiver.service.ShipService;
 

@@ -17,10 +17,6 @@ public class ETAController implements ETAControllerInterface {
         mapETA = new HashMap<>();
     }
 
-    public Map<String, ETALogType> getMapETA() {
-        return mapETA;
-    }
-
     @Override
     public void addETAParameter(String shipID, ETALogType logType) {
         mapETA.put(shipID, logType);

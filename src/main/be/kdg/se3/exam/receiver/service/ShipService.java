@@ -23,7 +23,7 @@ public class ShipService {
 
     public ShipService() {
         this.proxy = new ShipServiceProxy();
-        this.TIME_IN_CACHE = 20;
+        this.TIME_IN_CACHE = 5;
         this.RETRY = 5;
         checkCacheTime();
     }

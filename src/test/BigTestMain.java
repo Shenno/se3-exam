@@ -42,7 +42,7 @@ public class BigTestMain {
         output.sendMessage(converter.convert(shipMessage));
         output.sendMessage(converter.convert(shipMessage2));
         output.stop();
-        incidents();
+    //    incidents();
     }
 
     private void incidents() {

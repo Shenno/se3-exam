@@ -1,6 +1,5 @@
 package be.kdg.se3.exam.receiver.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
