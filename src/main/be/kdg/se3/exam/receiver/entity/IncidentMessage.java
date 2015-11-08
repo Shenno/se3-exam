@@ -6,6 +6,10 @@ package be.kdg.se3.exam.receiver.entity;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.entity
  */
+
+/**
+ * Class that represents an incoming incident message.
+ */
 public class IncidentMessage {
     private String shipID;
     private String type;

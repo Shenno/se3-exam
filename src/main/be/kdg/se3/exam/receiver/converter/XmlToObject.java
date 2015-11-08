@@ -1,5 +1,6 @@
 package be.kdg.se3.exam.receiver.converter;
 
+import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
@@ -14,17 +15,20 @@ import java.io.StringReader;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.converter
  */
+
+/**
+ * Class used to convert xml string to an object.
+ */
 public class XmlToObject {
-    public Object convert(String xml, Class c) {
+    public Object convert(String xml, Class c) throws ChannelException {
         Reader reader = new StringReader(xml);
-        Object object = new Object();
+        Object object;
         try {
             object = Unmarshaller.unmarshal(c, reader);
-        } catch (MarshalException e) {
-            e.printStackTrace();
-        } catch (ValidationException e) {
-            e.printStackTrace();
+            return object;
+        } catch (Exception e) {
+            throw new ChannelException("Error occured while converting xml to an object", e);
         }
-        return object;
+
     }
 }

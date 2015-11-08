@@ -8,6 +8,10 @@ import java.util.Date;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.entity
  */
+
+/**
+ * Class respresenting a message with the position of a specific ship.
+ */
 public class ShipMessage {
     private String shipID;
     private String plant;

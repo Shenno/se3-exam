@@ -7,13 +7,16 @@ package be.kdg.se3.exam.receiver.processor;
  * Package      be.kdg.se3.exam.receiver.processor
  */
 
+import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
+import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
 import be.kdg.se3.exam.receiver.converter.ObjectToXml;
 import be.kdg.se3.exam.receiver.entity.IncidentMessage;
 import be.kdg.se3.exam.receiver.entity.IncidentReport;
 import be.kdg.se3.exam.receiver.entity.ShipInfo;
 import be.kdg.se3.exam.receiver.service.ShipService;
+import org.apache.log4j.Logger;
 
 /**
  * Class that handles the creating and sending of IncidentActionReports.
@@ -23,6 +26,7 @@ public class ReportController {
     private ObjectToXml objectToXml;
     private ShipService shipService;
     private OutputRabbitMQ outputChannel;
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     public ReportController() {
         jsonToShipInfo = new JsonToShipInfo();
@@ -37,15 +41,26 @@ public class ReportController {
     }
 
     private void sendReport(IncidentReport report) {
-        outputChannel.init();
-        outputChannel.sendMessage(objectToXml.convert(report));
-        outputChannel.stop();
+        try {
+            outputChannel.init();
+            outputChannel.sendMessage(objectToXml.convert(report));
+            outputChannel.stop();
+        } catch (ConvertException e) {
+            logger.error("Conversion in sendReport method failed", e);
+        } catch (ChannelException e) {
+            logger.error("Channelexception occured in sendReport method", e);
+        }
     }
 
     private IncidentReport createReport(IncidentMessage incidentMsg) {
         String shipID = incidentMsg.getShipID();
         String incident = incidentMsg.getType();
-        ShipInfo shipInfo = jsonToShipInfo.convert(shipService.callShipService(shipID));
+        ShipInfo shipInfo = null;
+        try {
+            shipInfo = jsonToShipInfo.convert(shipService.callShipService(shipID));
+        } catch (ConvertException e) {
+            logger.error("Json conversion failed in createReport method", e);
+        }
         String action = decideAction(incident, shipInfo);
         return new IncidentReport(shipID, shipInfo, incident, action);
     }

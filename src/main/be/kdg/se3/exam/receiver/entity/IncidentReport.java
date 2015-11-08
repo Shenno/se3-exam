@@ -1,7 +1,5 @@
 package be.kdg.se3.exam.receiver.entity;
 
-import java.util.Collection;
-
 /**
  * Created by   Shenno Willaert
  * Date         5/11/2015
@@ -9,6 +7,9 @@ import java.util.Collection;
  * Package      be.kdg.se3.exam.receiver.entity
  */
 
+/**
+ * Class representing a report created for a specific incident message.
+ */
 public class IncidentReport {
     private String shipID;
     private String incident;

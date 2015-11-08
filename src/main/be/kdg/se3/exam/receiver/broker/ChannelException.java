@@ -6,8 +6,12 @@ package be.kdg.se3.exam.receiver.broker;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.broker
  */
-public class InputChannelException extends Exception {
-    public InputChannelException(String message, Exception cause) {
+
+/**
+ * Class used to wrap exceptions coming from the broker.
+ */
+public class ChannelException extends Exception {
+    public ChannelException(String message, Throwable cause) {
         super(message, cause);
     }
 }

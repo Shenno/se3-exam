@@ -20,7 +20,23 @@ public interface ETAControllerInterface {
      * @param logType When to log the ETA
      */
     void addETAParameter(String shipID, ETALogType logType);
+
+    /**
+     * Delete a ship from the ETA monitoring
+     * @param shipID
+     */
     void deleteETAParameter(String shipID);
+
+    /**
+     * Check if a specified ShipMessage is being monitored
+     * @param shipMessage
+     */
     void checkETAStatus(ShipMessage shipMessage);
+
+    /**
+     * Calculate the Estimated Time of Arrival
+     * @param secondLastMsg
+     * @param lastMsg
+     */
     void calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg);
 }

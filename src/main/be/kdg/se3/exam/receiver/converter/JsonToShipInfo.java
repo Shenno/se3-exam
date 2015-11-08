@@ -2,6 +2,7 @@ package be.kdg.se3.exam.receiver.converter;
 
 import be.kdg.se3.exam.receiver.entity.CargoInfo;
 import be.kdg.se3.exam.receiver.entity.ShipInfo;
+import org.apache.log4j.Logger;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -18,8 +19,15 @@ import java.util.Collection;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.converter
  */
+
+/**
+ * Class used to convert the Json String coming from the ShipServiceProxy.
+ * The convert method returns a ShipInfo object matching the Json.
+ */
 public class JsonToShipInfo {
-    public ShipInfo convert(String json) {
+    private final Logger logger = Logger.getLogger(this.getClass());
+
+    public ShipInfo convert(String json) throws ConvertException {
         try {
             JsonReader reader = Json.createReader(new StringReader(json));
             JsonObject jsonShipInfo = reader.readObject();
@@ -36,9 +44,8 @@ public class JsonToShipInfo {
                 cargoCollection.add(new CargoInfo(type, amount));
             }
             return new ShipInfo(imo, dangereousCargo, numberOfPassengers, cargoCollection);
-
         } catch (Exception e) {
-            throw new IOError(e.getCause());
+            throw new ConvertException("Error while converting Json to ShipInfo", e);
         }
     }
 }

@@ -4,6 +4,7 @@ import be.kdg.se3.exam.receiver.database.Database;
 import be.kdg.se3.exam.receiver.processor.MessageHandler;
 import be.kdg.se3.exam.receiver.processor.ShipMessageHandler;
 import com.rabbitmq.client.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -25,13 +26,14 @@ public class InputRabbitMQ implements InputChannel {
     private final String queue;
     private MessageHandler messageHandler;
 
+
     public InputRabbitMQ(String queueName, MessageHandler messageHandler) {
         this.queue = queueName;
         this.messageHandler = messageHandler;
     }
 
     @Override
-    public void init(){
+    public void init() throws ChannelException {
         try {
             factory = new ConnectionFactory();
             factory.setHost("localhost");
@@ -39,12 +41,12 @@ public class InputRabbitMQ implements InputChannel {
             channel = connection.createChannel();
             channel.queueDeclare(queue, false, false, false, null);
         } catch (Exception e) {
-
+            throw new ChannelException("Error occured: init method in InputRabbitMQ", e);
         }
     }
 
     @Override
-    public void startMonitoring() {
+    public void startMonitoring() throws ChannelException {
         try {
         consumer = new DefaultConsumer(channel) {
             @Override
@@ -56,17 +58,17 @@ public class InputRabbitMQ implements InputChannel {
         };
         channel.basicConsume(queue, true, consumer);
         } catch (Exception e) {
-
+            throw new ChannelException("Error occured: startMonitoring method in InputRabbitMQ", e);
         }
     }
 
     @Override
-    public void stop() {
+    public void stop() throws ChannelException {
         try {
             channel.close();
             connection.close();
         } catch (Exception e) {
-
+            throw new ChannelException("Error occured: stop method in InputRabbitMQ", e);
         }
     }
 }

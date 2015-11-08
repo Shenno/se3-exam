@@ -1,4 +1,6 @@
+import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
+import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
 import be.kdg.se3.exam.receiver.converter.ObjectToXml;
 import be.kdg.se3.exam.receiver.entity.IncidentReport;
@@ -16,7 +18,7 @@ import java.util.Date;
  * Package      PACKAGE_NAME
  */
 public class BigTestMain {
-    public static void main(String[] argv) throws InterruptedException {
+    public static void main(String[] argv) throws InterruptedException, ConvertException, ChannelException {
         Processor p = new Processor();
         p.start();
         Thread.sleep(2000);
@@ -24,7 +26,7 @@ public class BigTestMain {
 
     }
 
-    public void init() throws InterruptedException {
+    public void init() throws InterruptedException, ChannelException, ConvertException {
         ShipMessage shipMessage = new ShipMessage();
         shipMessage.setShipID("1234567");
         shipMessage.setTimeStamp(new Date());
@@ -45,7 +47,7 @@ public class BigTestMain {
     //    incidents();
     }
 
-    private void incidents() {
+  /*  private void incidents() {
         ShipService shipService = new ShipService();
         JsonToShipInfo conv = new JsonToShipInfo();
 
@@ -54,7 +56,7 @@ public class BigTestMain {
         IncidentReport report = new IncidentReport("1234569", shipInfo, "Kevin overboord","Bring baeck into the water");
         ObjectToXml xml = new ObjectToXml();
         System.out.println(xml.convert(report));
-    }
+    }*/
 
 
 }

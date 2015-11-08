@@ -1,8 +1,10 @@
 package be.kdg.se3.exam.receiver.processor;
 
+import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.converter.XmlToObject;
 import be.kdg.se3.exam.receiver.database.DummyDatabase;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
+import org.apache.log4j.Logger;
 
 /**
  * Created by   Shenno Willaert
@@ -18,23 +20,27 @@ public class ShipMessageHandler implements MessageHandler {
     private Buffer buffer;
     private DummyDatabase database;
     private ETAController etaController;
+    private XmlToObject xmlToObject;
+    private final Logger logger = Logger.getLogger(this.getClass());
+
 
     public ShipMessageHandler() {
-        buffer = new Buffer();
-        database = new DummyDatabase();
-        etaController = new ETAController();
-        etaController.addETAParameter("1234567", ETALogType.NEW_MSG); //todo WEGDOEN
+        this.buffer = new Buffer();
+        this.database = new DummyDatabase();
+        this.etaController = new ETAController();
+        this.xmlToObject = new XmlToObject();
+        this.etaController.addETAParameter("1234567", ETALogType.NEW_MSG); //todo WEGDOEN
     }
 
     public void handleMessage(String message) {
-        ShipMessage inputShipMsg = convertXml(message);
+        ShipMessage inputShipMsg = null;
+        try {
+            inputShipMsg = (ShipMessage) xmlToObject.convert(message, ShipMessage.class);
+        } catch (ChannelException e) {
+            logger.error("Conversion error xml to ShipMessage occured in handleMessage method", e);
+        }
         database.onInsert(inputShipMsg);
         buffer.addMsg(inputShipMsg);
         etaController.checkETAStatus(inputShipMsg);
-    }
-
-    private ShipMessage convertXml(String xml) {
-        XmlToObject converter = new XmlToObject();
-        return (ShipMessage) converter.convert(xml, ShipMessage.class);
     }
 }

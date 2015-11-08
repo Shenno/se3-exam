@@ -13,6 +13,10 @@ import java.util.concurrent.TimeoutException;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.broker
  */
+
+/**
+ * Class sending messages on a queue using RabbitMQ broker.
+ */
 public class OutputRabbitMQ implements OutputChannel {
     private final String QUEUE_NAME;
     private ConnectionFactory factory;
@@ -24,7 +28,7 @@ public class OutputRabbitMQ implements OutputChannel {
     }
 
     @Override
-    public void init() {
+    public void init() throws ChannelException {
         try {
             factory = new ConnectionFactory();
             factory.setHost("localhost");
@@ -32,27 +36,27 @@ public class OutputRabbitMQ implements OutputChannel {
             channel = connection.createChannel();
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         } catch (Exception e) {
-
+            throw new ChannelException("Error occured: init() in OutputRabbitMQ", e);
         }
 
     }
 
     @Override
-    public void sendMessage(String message) {
+    public void sendMessage(String message) throws ChannelException {
         try {
             channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new ChannelException("Error occured: sendMessage() in OutputRabbitMQ", e);
         }
     }
 
     @Override
-    public void stop() {
+    public void stop() throws ChannelException {
         try {
             channel.close();
             connection.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ChannelException("Error occured: stop() in OutputRabbitMQ", e);
         }
     }
 }

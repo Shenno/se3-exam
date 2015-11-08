@@ -1,6 +1,8 @@
 package be.kdg.se3.exam.receiver.processor;
 
+import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
+import org.apache.log4j.Logger;
 
 /**
  * Created by   Shenno Willaert
@@ -13,6 +15,7 @@ public class Processor {
     private InputRabbitMQ inputIncidentMsgs;
     private ShipMessageHandler shipMessageHandler;
     private IncidentMessageHandler incidentMessageHandler;
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     public Processor() {
         // Handlers
@@ -25,11 +28,14 @@ public class Processor {
 
 
     public void start() {
-        inputPosMsgs.init();
-        inputPosMsgs.startMonitoring();
-
-        inputIncidentMsgs.init();
-        inputIncidentMsgs.startMonitoring();
+        try {
+            inputPosMsgs.init();
+            inputPosMsgs.startMonitoring();
+            inputIncidentMsgs.init();
+            inputIncidentMsgs.startMonitoring();
+        } catch (ChannelException e) {
+            logger.error("Channelexceptions occured while starting the Processor", e);
+        }
     }
 
 

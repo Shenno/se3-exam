@@ -13,18 +13,21 @@ import java.io.Writer;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.converter
  */
+
+/**
+ * Class to convert any type of object to xml.
+ */
 public class ObjectToXml {
     public ObjectToXml() {
     }
-    public String convert(Object o)
-    {
-        Writer writer = new StringWriter();
-        try {
-            Marshaller.marshal(o, writer);
-        }
-        catch (Exception e) {
 
+    public String convert(Object o) throws ConvertException {
+        try {
+            Writer writer = new StringWriter();
+            Marshaller.marshal(o, writer);
+            return writer.toString();
+        } catch (Exception e) {
+            throw new ConvertException("Error occured while converting object to xml", e);
         }
-        return writer.toString();
     }
 }

@@ -1,5 +1,6 @@
 package be.kdg.se3.exam.receiver.processor;
 
+import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import be.kdg.se3.exam.receiver.service.ShipService;
@@ -37,9 +38,6 @@ public class Buffer {
         ArrayList<ShipMessage> c = shipMsgs.get(sm.getShipID());
         c.add(sm);
         shipInfos.put(sm.getShipID(), service.callShipService(sm.getShipID()));
-        /* deleten die shit */ //todo
-        JsonToShipInfo converter = new JsonToShipInfo();
-        System.out.println(converter.convert(service.callShipService(sm.getShipID())));
     }
 
     private void checkBufferTime() {
@@ -60,6 +58,5 @@ public class Buffer {
                 }
             }
         }, BUFFERTIME * 1000, BUFFERTIME * 1000);
-
     }
 }

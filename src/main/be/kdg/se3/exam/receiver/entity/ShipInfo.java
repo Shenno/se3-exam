@@ -8,6 +8,10 @@ import java.util.Collection;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.entity
  */
+
+/**
+ * Class representing the info about a ship (passangers + cargo).
+ */
 public class ShipInfo {
     private String imo;
     private boolean dangereousCargo;

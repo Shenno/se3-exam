@@ -8,21 +8,24 @@ package be.kdg.se3.exam.receiver.broker;
  */
 
 /**
- * Interface for an inputchannel (messagebroker)
+ * Interface for an inputchannel (messagebroker).
  */
 public interface InputChannel {
     /**
-     * Initialize the inputchannel to use.
+     * Initialize the inputchannel.
+     * @throws ChannelException
      */
-    void init();
+    void init() throws ChannelException;
 
     /**
      * Start monitoring incoming messages.
+     * @throws ChannelException
      */
-    void startMonitoring();
+    void startMonitoring() throws ChannelException;
 
     /**
      * Close the connections and shutdown the service.
+     * @throws ChannelException
      */
-    void stop();
+    void stop() throws ChannelException;
 }

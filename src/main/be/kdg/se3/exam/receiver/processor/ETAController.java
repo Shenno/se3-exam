@@ -10,6 +10,11 @@ import java.util.*;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.processor
  */
+
+/**
+ * Class ETAController is going to hold the info when and about which ships an ETA has to be calculated.
+ * Also this class is responsible for the actual calculation.
+ */
 public class ETAController implements ETAControllerInterface {
     private Map<String, ETALogType> mapETA;
 

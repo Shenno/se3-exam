@@ -6,6 +6,10 @@ package be.kdg.se3.exam.receiver.entity;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.entity
  */
+
+/**
+ * Class to represent the cargo from a ship.
+ */
 public class CargoInfo {
     private String type;
     private int amount;
