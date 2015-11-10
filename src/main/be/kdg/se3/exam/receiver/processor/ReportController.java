@@ -15,6 +15,7 @@ import be.kdg.se3.exam.receiver.converter.ObjectToXml;
 import be.kdg.se3.exam.receiver.entity.IncidentMessage;
 import be.kdg.se3.exam.receiver.entity.IncidentReport;
 import be.kdg.se3.exam.receiver.entity.ShipInfo;
+import be.kdg.se3.exam.receiver.service.ServiceException;
 import be.kdg.se3.exam.receiver.service.ShipService;
 import org.apache.log4j.Logger;
 
@@ -44,6 +45,7 @@ public class ReportController {
         try {
             outputChannel.init();
             outputChannel.sendMessage(objectToXml.convert(report));
+            logger.info(String.format("Incidentreport about ship %s sent to queue with action %s", report.getShipID(), report.getAction()));
             outputChannel.stop();
         } catch (ConvertException e) {
             logger.error("Conversion in sendReport method failed", e);
@@ -60,6 +62,8 @@ public class ReportController {
             shipInfo = jsonToShipInfo.convert(shipService.callShipService(shipID));
         } catch (ConvertException e) {
             logger.error("Json conversion failed in createReport method", e);
+        } catch (ServiceException e) {
+            logger.error("Call to proxyservice failed", e);
         }
         String action = decideAction(incident, shipInfo);
         return new IncidentReport(shipID, shipInfo, incident, action);

@@ -2,6 +2,8 @@ package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 
+import java.util.Date;
+
 /**
  * Created by   Shenno Willaert
  * Date         4/11/2015
@@ -37,6 +39,7 @@ public interface ETAControllerInterface {
      * Calculate the Estimated Time of Arrival
      * @param secondLastMsg
      * @param lastMsg
+     * @return ETA Date
      */
-    void calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg);
+    Date calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg);
 }

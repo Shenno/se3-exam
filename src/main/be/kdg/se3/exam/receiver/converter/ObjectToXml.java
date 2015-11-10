@@ -27,7 +27,7 @@ public class ObjectToXml {
             Marshaller.marshal(o, writer);
             return writer.toString();
         } catch (Exception e) {
-            throw new ConvertException("Error occured while converting object to xml", e);
+            throw new ConvertException("Error occurred while converting object to xml", e);
         }
     }
 }

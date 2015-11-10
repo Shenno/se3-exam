@@ -1,6 +1,7 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.broker.ChannelException;
+import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.XmlToObject;
 import be.kdg.se3.exam.receiver.database.DummyDatabase;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
@@ -29,14 +30,14 @@ public class ShipMessageHandler implements MessageHandler {
         this.database = new DummyDatabase();
         this.etaController = new ETAController();
         this.xmlToObject = new XmlToObject();
-        this.etaController.addETAParameter("1234567", ETALogType.NEW_MSG); //todo WEGDOEN
+        this.etaController.addETAParameter("1234567", ETALogType.NEW_MSG);
     }
 
     public void handleMessage(String message) {
         ShipMessage inputShipMsg = null;
         try {
             inputShipMsg = (ShipMessage) xmlToObject.convert(message, ShipMessage.class);
-        } catch (ChannelException e) {
+        } catch (ConvertException e) {
             logger.error("Conversion error xml to ShipMessage occured in handleMessage method", e);
         }
         database.onInsert(inputShipMsg);

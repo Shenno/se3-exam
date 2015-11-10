@@ -22,9 +22,11 @@ public class IncidentReport {
         this.shipID = shipID;
         this.incident = incident;
         this.action = action;
-        this.imo = shipInfo.getImo();
-        this.dangereousCargo = shipInfo.isDangereousCargo();
-        this.numberOfPassangers = shipInfo.getNumberOfPassangers();
+        if (shipInfo != null) {
+            this.imo = shipInfo.getImo();
+            this.dangereousCargo = shipInfo.isDangereousCargo();
+            this.numberOfPassangers = shipInfo.getNumberOfPassangers();
+        }
     }
 
     public String getShipID() {

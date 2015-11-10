@@ -13,37 +13,34 @@ import java.util.*;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.service
  */
+
+/**
+ * Class that will call the external proxy and return its info.
+ */
 public class ShipService {
     private ShipServiceProxy proxy;
     private final String CALL = "www.services4se3.com/shipservice/";
-    private final int TIME_IN_CACHE; // IN SECONDS
-    private final int RETRY;
+    private final int TIME_IN_CACHE = 60; // IN SECONDS
+    private final int RETRY = 5; // TODO
     private Map<String, String> cache = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 
     public ShipService() {
         this.proxy = new ShipServiceProxy();
-        this.TIME_IN_CACHE = 5;
-        this.RETRY = 5;
         checkCacheTime();
     }
 
-    /**
-     * @param shipID
-     * @return
-     */
-    public String callShipService(String shipID) {
+    public String callShipService(String shipID) throws ServiceException {
         if (cache.containsKey(shipID))
             return cache.get(shipID);
 
-        String response = new String();
         try {
-            response = proxy.get(CALL + shipID);
+            String response = proxy.get(CALL + shipID);
             cache.put(shipID, response);
+            return response;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ServiceException("Proxy unavailable", e);
         }
-        return response;
     }
 
     private void checkCacheTime() {
@@ -52,7 +49,7 @@ public class ShipService {
             @Override
             public void run() {
                 cache.clear();
-                System.out.println("==Cachecleared==");
+                logger.info("Cache cleared");
             }
         }, TIME_IN_CACHE * 1000, TIME_IN_CACHE * 1000);
 

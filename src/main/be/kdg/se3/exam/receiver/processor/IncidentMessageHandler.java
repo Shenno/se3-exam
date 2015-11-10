@@ -1,14 +1,13 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.broker.ChannelException;
-import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
+import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.XmlToObject;
 import be.kdg.se3.exam.receiver.entity.IncidentMessage;
-import be.kdg.se3.exam.receiver.entity.IncidentReport;
-import be.kdg.se3.exam.receiver.entity.ShipInfo;
-import be.kdg.se3.exam.receiver.entity.ShipMessage;
-import be.kdg.se3.exam.receiver.service.ShipService;
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by   Shenno Willaert
@@ -16,23 +15,30 @@ import org.apache.log4j.Logger;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.processor
  */
+
+/**
+ * Class that handles the incoming incident messages.
+ */
 public class IncidentMessageHandler implements MessageHandler {
     private ReportController reportController;
     private XmlToObject xmlToObject;
     private final Logger logger = Logger.getLogger(this.getClass());
+    private final Collection<String> reportableIncidents = new ArrayList<>();
 
     public IncidentMessageHandler() {
         reportController = new ReportController();
         xmlToObject = new XmlToObject();
+        reportableIncidents.add("schade");
+        reportableIncidents.add("man overboord");
     }
     public void handleMessage(String message) {
-        IncidentMessage incidentMessage = null;
         try {
-            incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
-        } catch (ChannelException e) {
-            logger.error("Conversionerror xml to IncidentMessage occured in IncidentMsgHandler", e);
+            IncidentMessage incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
+            if (reportableIncidents.contains(incidentMessage.getType().toLowerCase())) {
+                reportController.createAndSendReport(incidentMessage);
+            }
+        } catch ( ConvertException e ) {
+            logger.error("Conversionerror xml to IncidentMessage occurred in ", e);
         }
-        reportController.createAndSendReport(incidentMessage);
     }
-
 }

@@ -14,7 +14,6 @@ import be.kdg.se3.exam.receiver.entity.ShipMessage;
  * Dummydatabase implementation class that is just going to print the inserted messages.
  */
 public class DummyDatabase implements Database {
-
     @Override
     public void onInsert(ShipMessage shipMessage) {
         System.out.printf("Inserted: %s \n", shipMessage.toString());

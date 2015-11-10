@@ -1,6 +1,7 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import java.util.*;
  */
 public class ETAController implements ETAControllerInterface {
     private Map<String, ETALogType> mapETA;
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     public ETAController() {
         mapETA = new HashMap<>();
@@ -34,27 +36,29 @@ public class ETAController implements ETAControllerInterface {
 
     @Override
     public void checkETAStatus(ShipMessage shipMessage) {
+        Date etaDate;
         ArrayList<ShipMessage> shipMessages = Buffer.getShipMsgs(shipMessage.getShipID());
         if (mapETA.containsKey(shipMessage.getShipID()) && shipMessages.size() > 1) {
             ShipMessage secondLast = shipMessages.get(shipMessages.size() - 2);
             ShipMessage last = shipMessages.get(shipMessages.size() - 1);
             if (mapETA.get(shipMessage.getShipID()) == ETALogType.NEW_MSG) {
-                calcETA(secondLast, last);
+                etaDate = calcETA(secondLast, last);
+                logger.info(String.format("Ship %s ETA: %s - %s", shipMessage.getShipID(), etaDate, ETALogType.NEW_MSG));
             } else if (mapETA.get(shipMessage.getShipID()) == ETALogType.NEW_POS) {
                 if (!secondLast.getPlant().equals(last.getPlant())) {
-                    calcETA(secondLast, last);
+                    etaDate = calcETA(secondLast, last);
+                    logger.info(String.format("Ship %s ETA: %s - %s", shipMessage.getShipID(), etaDate, ETALogType.NEW_POS));
                 }
             }
         }
     }
 
     @Override
-    public void calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg) {
-        long timeDiff = lastMsg.getTimeStamp().getTime() - secondLastMsg.getTimeStamp().getTime();
+    public Date calcETA(ShipMessage secondLastMsg, ShipMessage lastMsg) {
+        double timeDiff = lastMsg.getTimeStamp().getTime() - secondLastMsg.getTimeStamp().getTime();
         double quadeDiff = secondLastMsg.getDistanceToLoadingBay() - lastMsg.getDistanceToLoadingBay();
         double currSpeed = quadeDiff / timeDiff;
         double eta = lastMsg.getDistanceToLoadingBay() / currSpeed;
-        Date dateEta = new Date(lastMsg.getTimeStamp().getTime() + (long) eta);
-        System.out.println(dateEta);
+        return new Date(lastMsg.getTimeStamp().getTime() + (long) eta);
     }
 }

@@ -10,6 +10,11 @@ import org.apache.log4j.Logger;
  * Project      se3-exam
  * Package      be.kdg.se3.exam.receiver.processor
  */
+
+/**
+ * Processor class that is the engine of the application.
+ * Starts monitoring the message broker queue(s).
+ */
 public class Processor {
     private InputRabbitMQ inputPosMsgs;
     private InputRabbitMQ inputIncidentMsgs;

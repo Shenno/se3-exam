@@ -20,14 +20,14 @@ import java.io.StringReader;
  * Class used to convert xml string to an object.
  */
 public class XmlToObject {
-    public Object convert(String xml, Class c) throws ChannelException {
+    public Object convert(String xml, Class c) throws ConvertException {
         Reader reader = new StringReader(xml);
         Object object;
         try {
             object = Unmarshaller.unmarshal(c, reader);
             return object;
         } catch (Exception e) {
-            throw new ChannelException("Error occured while converting xml to an object", e);
+            throw new ConvertException("Error occured while converting xml to an object", e);
         }
 
     }
