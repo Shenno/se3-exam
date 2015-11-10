@@ -11,7 +11,7 @@ package be.kdg.se3.exam.receiver.service;
  * Class used to wrap exceptions from external service calls
  */
 public class ServiceException extends Exception {
-    public ServiceException(String message, Throwable cause) {
-        super(message, cause);
+    public ServiceException(String message) {
+        super(message);
     }
 }

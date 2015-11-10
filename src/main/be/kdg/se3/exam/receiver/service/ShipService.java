@@ -21,7 +21,7 @@ public class ShipService {
     private ShipServiceProxy proxy;
     private final String CALL = "www.services4se3.com/shipservice/";
     private final int TIME_IN_CACHE = 60; // IN SECONDS
-    private final int RETRY = 5; // TODO
+    private final int RETRY = 5;
     private Map<String, String> cache = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 
@@ -34,13 +34,17 @@ public class ShipService {
         if (cache.containsKey(shipID))
             return cache.get(shipID);
 
-        try {
-            String response = proxy.get(CALL + shipID);
-            cache.put(shipID, response);
-            return response;
-        } catch (IOException e) {
-            throw new ServiceException("Proxy unavailable", e);
+        int i = 0;
+        while (i < RETRY) {
+            try {
+                String response = proxy.get(CALL + shipID);
+                cache.put(shipID, response);
+                return response;
+            } catch (IOException e) {
+                i++;
+            }
         }
+        throw new ServiceException(String.format("Proxy unavailable after %d retries", RETRY));
     }
 
     private void checkCacheTime() {
