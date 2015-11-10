@@ -19,6 +19,9 @@ import be.kdg.se3.exam.receiver.service.ServiceException;
 import be.kdg.se3.exam.receiver.service.ShipService;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Class that handles the creating and sending of IncidentActionReports.
  */
@@ -28,12 +31,15 @@ public class ReportController {
     private ShipService shipService;
     private OutputRabbitMQ outputChannel;
     private final Logger logger = Logger.getLogger(this.getClass());
+    private final Collection<String> reportableIncidents = new ArrayList<>();
 
     public ReportController() {
         jsonToShipInfo = new JsonToShipInfo();
         objectToXml = new ObjectToXml();
         shipService = new ShipService();
         outputChannel = new OutputRabbitMQ("INCIDENT_MESSAGES");
+        reportableIncidents.add("schade");
+        reportableIncidents.add("man overboord");
     }
     
     public void createAndSendReport(IncidentMessage incidentMsg) {
@@ -91,5 +97,9 @@ public class ReportController {
 
         }
         return action;
+    }
+
+    public Collection<String> getReportableIncidents() {
+        return reportableIncidents;
     }
 }

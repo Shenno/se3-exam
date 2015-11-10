@@ -23,18 +23,16 @@ public class IncidentMessageHandler implements MessageHandler {
     private ReportController reportController;
     private XmlToObject xmlToObject;
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final Collection<String> reportableIncidents = new ArrayList<>();
 
     public IncidentMessageHandler() {
         reportController = new ReportController();
         xmlToObject = new XmlToObject();
-        reportableIncidents.add("schade");
-        reportableIncidents.add("man overboord");
+
     }
     public void handleMessage(String message) {
         try {
             IncidentMessage incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
-            if (reportableIncidents.contains(incidentMessage.getType().toLowerCase())) {
+            if (reportController.getReportableIncidents().contains(incidentMessage.getType().toLowerCase())) {
                 reportController.createAndSendReport(incidentMessage);
             }
         } catch ( ConvertException e ) {
