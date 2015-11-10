@@ -37,7 +37,7 @@ public class ReportController {
         jsonToShipInfo = new JsonToShipInfo();
         objectToXml = new ObjectToXml();
         shipService = new ShipService();
-        outputChannel = new OutputRabbitMQ("INCIDENT_MESSAGES");
+        outputChannel = new OutputRabbitMQ("REPORT_MESSAGES");
         reportableIncidents.add("schade");
         reportableIncidents.add("man overboord");
     }
