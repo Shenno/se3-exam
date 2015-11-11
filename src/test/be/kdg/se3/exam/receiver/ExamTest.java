@@ -1,7 +1,6 @@
 package be.kdg.se3.exam.receiver;
 
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
-import be.kdg.se3.exam.receiver.entity.ShipMessage;
 import be.kdg.se3.exam.receiver.processor.*;
 
 /**
@@ -13,7 +12,7 @@ import be.kdg.se3.exam.receiver.processor.*;
 public class ExamTest {
     public static void main(String[] argv) {
         // ETA
-        ETAController etaController = new ETAController();
+        ETAControllerImpl etaController = new ETAControllerImpl();
         etaController.addETAParameter("1234567", ETALogType.NEW_MSG);
         // Handlers
         ShipMessageHandler shipMessageHandler = new ShipMessageHandler(etaController);

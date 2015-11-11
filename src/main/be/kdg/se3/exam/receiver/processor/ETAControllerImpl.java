@@ -13,14 +13,14 @@ import java.util.*;
  */
 
 /**
- * Class ETAController is going to hold the info when and about which ships an ETA has to be calculated.
+ * Class ETAControllerImpl is going to hold the info when and about which ships an ETA has to be calculated.
  * Also this class is responsible for the actual calculation.
  */
-public class ETAController implements ETAControllerInterface {
+public class ETAControllerImpl implements ETAControllerInterface {
     private Map<String, ETALogType> mapETA;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public ETAController() {
+    public ETAControllerImpl() {
         mapETA = new HashMap<>();
     }
 
