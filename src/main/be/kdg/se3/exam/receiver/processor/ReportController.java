@@ -39,7 +39,7 @@ public class ReportController {
         shipService = new ShipService();
         outputChannel = new OutputRabbitMQ("REPORT_MESSAGES");
         reportableIncidents.add("schade");
-        reportableIncidents.add("man overboord");
+        reportableIncidents.add("man over boord");
     }
     
     public void createAndSendReport(IncidentMessage incidentMsg) {
@@ -54,22 +54,22 @@ public class ReportController {
             logger.info(String.format("Incidentreport about ship %s sent to queue with action %s", report.getShipID(), report.getAction()));
             outputChannel.stop();
         } catch (ConvertException e) {
-            logger.error("Conversion in sendReport method failed", e);
+            logger.error(e.getMessage(), e);
         } catch (ChannelException e) {
-            logger.error("Channelexception occured in sendReport method", e);
+            logger.error(e.getMessage(), e);
         }
     }
 
     private IncidentReport createReport(IncidentMessage incidentMsg) {
         String shipID = incidentMsg.getShipID();
-        String incident = incidentMsg.getType();
+        String incident = incidentMsg.getIncidentType();
         ShipInfo shipInfo = null;
         try {
             shipInfo = jsonToShipInfo.convert(shipService.callShipService(shipID));
         } catch (ConvertException e) {
-            logger.error("Json conversion failed in createReport method", e);
+            logger.error(e.getMessage(), e);
         } catch (ServiceException e) {
-            logger.error("Call to proxyservice failed", e);
+            logger.error(e.getMessage(), e);
         }
         String action = decideAction(incident, shipInfo);
         return new IncidentReport(shipID, shipInfo, incident, action);

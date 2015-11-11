@@ -3,6 +3,8 @@ import be.kdg.se3.exam.receiver.broker.OutputRabbitMQ;
 import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.JsonToShipInfo;
 import be.kdg.se3.exam.receiver.converter.ObjectToXml;
+import be.kdg.se3.exam.receiver.converter.XmlToObject;
+import be.kdg.se3.exam.receiver.entity.IncidentMessage;
 import be.kdg.se3.exam.receiver.entity.IncidentReport;
 import be.kdg.se3.exam.receiver.entity.ShipInfo;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
@@ -19,14 +21,15 @@ import java.util.Date;
  */
 public class BigTestMain {
     public static void main(String[] argv) throws InterruptedException, ConvertException, ChannelException {
-        Processor p = new Processor();
+   /*     Processor p = new Processor();
         p.start();
-        Thread.sleep(2000);
+        Thread.sleep(2000);*/
         new BigTestMain().init();
 
     }
 
     public void init() throws InterruptedException, ChannelException, ConvertException {
+
         ShipMessage shipMessage = new ShipMessage();
         shipMessage.setShipID("1234567");
         shipMessage.setTimeStamp(new Date());

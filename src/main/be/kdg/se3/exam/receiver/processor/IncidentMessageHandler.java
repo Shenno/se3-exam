@@ -1,13 +1,9 @@
 package be.kdg.se3.exam.receiver.processor;
 
-import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.converter.ConvertException;
 import be.kdg.se3.exam.receiver.converter.XmlToObject;
 import be.kdg.se3.exam.receiver.entity.IncidentMessage;
 import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by   Shenno Willaert
@@ -32,11 +28,11 @@ public class IncidentMessageHandler implements MessageHandler {
     public void handleMessage(String message) {
         try {
             IncidentMessage incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
-            if (reportController.getReportableIncidents().contains(incidentMessage.getType().toLowerCase())) {
+            if (reportController.getReportableIncidents().contains(incidentMessage.getIncidentType().toLowerCase())) {
                 reportController.createAndSendReport(incidentMessage);
             }
         } catch ( ConvertException e ) {
-            logger.error("Conversionerror xml to IncidentMessage occurred in ", e);
+            logger.error(e.getMessage(), e);
         }
     }
 }

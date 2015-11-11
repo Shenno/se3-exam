@@ -71,4 +71,9 @@ public class InputRabbitMQ implements InputChannel {
             throw new ChannelException("Error occured: stop method in InputRabbitMQ", e);
         }
     }
+
+    @Override
+    public String getInfo() {
+        return String.format("RabbitMQ messagebroker on queue: %s",this.queue);
+    }
 }

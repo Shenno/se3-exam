@@ -28,4 +28,10 @@ public interface InputChannel {
      * @throws ChannelException
      */
     void stop() throws ChannelException;
+
+    /**
+     * Gives informations about the InputChannel
+     * @return Short description about the channel
+     */
+    String getInfo();
 }

@@ -12,11 +12,15 @@ package be.kdg.se3.exam.receiver.entity;
  */
 public class IncidentMessage {
     private String shipID;
-    private String type;
+    private String incidentType;
+
+    public IncidentMessage() {
+
+    }
 
     public IncidentMessage(String shipID, String type) {
         this.shipID = shipID;
-        this.type = type;
+        this.incidentType = type;
     }
 
     public String getShipID() {
@@ -27,11 +31,11 @@ public class IncidentMessage {
         this.shipID = shipID;
     }
 
-    public String getType() {
-        return type;
+    public String getIncidentType() {
+        return incidentType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setIncidentType(String incidentType) {
+        this.incidentType = incidentType;
     }
 }

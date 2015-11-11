@@ -35,9 +35,8 @@ public class ETAController implements ETAControllerInterface {
     }
 
     @Override
-    public void checkETAStatus(ShipMessage shipMessage) {
+    public void checkETAStatus(ShipMessage shipMessage, ArrayList<ShipMessage> shipMessages) {
         Date etaDate;
-        ArrayList<ShipMessage> shipMessages = Buffer.getShipMsgs(shipMessage.getShipID());
         if (mapETA.containsKey(shipMessage.getShipID()) && shipMessages.size() > 1) {
             ShipMessage secondLast = shipMessages.get(shipMessages.size() - 2);
             ShipMessage last = shipMessages.get(shipMessages.size() - 1);

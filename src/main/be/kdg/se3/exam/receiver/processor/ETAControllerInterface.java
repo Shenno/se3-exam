@@ -2,6 +2,8 @@ package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -33,7 +35,7 @@ public interface ETAControllerInterface {
      * Check if a specified ShipMessage is being monitored
      * @param shipMessage
      */
-    void checkETAStatus(ShipMessage shipMessage);
+    void checkETAStatus(ShipMessage shipMessage, ArrayList<ShipMessage> shipMessages);
 
     /**
      * Calculate the Estimated Time of Arrival

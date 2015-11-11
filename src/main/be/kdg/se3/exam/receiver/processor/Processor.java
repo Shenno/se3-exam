@@ -4,6 +4,9 @@ import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Created by   Shenno Willaert
  * Date         3/11/2015
@@ -16,30 +19,37 @@ import org.apache.log4j.Logger;
  * Starts monitoring the message broker queue(s).
  */
 public class Processor {
-    private InputRabbitMQ inputPosMsgs;
-    private InputRabbitMQ inputIncidentMsgs;
-    private ShipMessageHandler shipMessageHandler;
-    private IncidentMessageHandler incidentMessageHandler;
+    private Collection<InputRabbitMQ> inputChannels;
     private final Logger logger = Logger.getLogger(this.getClass());
 
     public Processor() {
-        // Handlers
-        this.shipMessageHandler = new ShipMessageHandler();
-        this.incidentMessageHandler = new IncidentMessageHandler();
-        // InputChannels
-        this.inputPosMsgs = new InputRabbitMQ("POSITION_MESSAGES", this.shipMessageHandler);
-        this.inputIncidentMsgs = new InputRabbitMQ("INCIDENT_MESSAGES", this.incidentMessageHandler);
+        inputChannels = new ArrayList<>();
     }
 
+    public void addInputChannel(InputRabbitMQ inputChannel) {
+        inputChannels.add(inputChannel);
+    }
 
     public void start() {
-        try {
-            inputPosMsgs.init();
-            inputPosMsgs.startMonitoring();
-            inputIncidentMsgs.init();
-            inputIncidentMsgs.startMonitoring();
-        } catch (ChannelException e) {
-            logger.error("Channelexceptions occured while starting the Processor", e);
+        for (InputRabbitMQ inputChannel : inputChannels) {
+            try {
+                inputChannel.init();
+                inputChannel.startMonitoring();
+                logger.info(String.format("Started monitoring: %s",inputChannel.getInfo()));
+            } catch (ChannelException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    public void stop() {
+        for (InputRabbitMQ inputChannel : inputChannels) {
+            try {
+                inputChannel.stop();
+                logger.info(String.format("Stopped monitoring: %s",inputChannel.getInfo()));
+            } catch (ChannelException e) {
+                logger.error(e.getMessage(), e);
+            }
         }
     }
 

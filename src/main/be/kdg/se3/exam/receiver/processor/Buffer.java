@@ -19,10 +19,11 @@ import java.util.*;
  * It also calls the external service to receive information about a specified shipID.
  */
 public class Buffer {
-    private static final int BUFFERTIME = 60; // in seconds
+    private final int BUFFERTIME = 60; // in seconds
+    private final int SCHEDULETIME = 10; // in seconds
     private ShipService service;
-    private static Map<String, ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
-    private static Map<String, String> shipInfos = new HashMap<>();
+    private Map<String, ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
+    private Map<String, String> shipInfos = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 
     public Buffer() {
@@ -30,7 +31,7 @@ public class Buffer {
         checkBufferTime();
     }
 
-    public static ArrayList<ShipMessage> getShipMsgs(String shipID) {
+    public ArrayList<ShipMessage> getShipMsgs(String shipID) {
         return shipMsgs.get(shipID);
     }
 
@@ -44,9 +45,8 @@ public class Buffer {
             logger.info(String.format("Shipinfo retrieved for ship %s", sm.getShipID()));
             shipInfos.putIfAbsent(sm.getShipID(), serviceResponse);
         } catch (ServiceException e) {
-            logger.error("Invalid response from service call", e);
+            logger.error(e.getMessage(), e);
         }
-
     }
 
     private void checkBufferTime() {
@@ -66,6 +66,6 @@ public class Buffer {
                     }
                 }
             }
-        }, BUFFERTIME * 1000, BUFFERTIME * 1000);
+        }, SCHEDULETIME * 1000, SCHEDULETIME * 1000);
     }
 }
