@@ -1,6 +1,7 @@
 package be.kdg.se3.exam.receiver.processor;
 
 import be.kdg.se3.exam.receiver.broker.ChannelException;
+import be.kdg.se3.exam.receiver.broker.InputChannel;
 import be.kdg.se3.exam.receiver.broker.InputRabbitMQ;
 import org.apache.log4j.Logger;
 
@@ -19,19 +20,19 @@ import java.util.Collection;
  * Starts monitoring the message broker queue(s).
  */
 public class Processor {
-    private Collection<InputRabbitMQ> inputChannels;
+    private Collection<InputChannel> inputChannels;
     private final Logger logger = Logger.getLogger(this.getClass());
 
     public Processor() {
         inputChannels = new ArrayList<>();
     }
 
-    public void addInputChannel(InputRabbitMQ inputChannel) {
+    public void addInputChannel(InputChannel inputChannel) {
         inputChannels.add(inputChannel);
     }
 
     public void start() {
-        for (InputRabbitMQ inputChannel : inputChannels) {
+        for (InputChannel inputChannel : inputChannels) {
             try {
                 inputChannel.init();
                 inputChannel.startMonitoring();
@@ -43,7 +44,7 @@ public class Processor {
     }
 
     public void stop() {
-        for (InputRabbitMQ inputChannel : inputChannels) {
+        for (InputChannel inputChannel : inputChannels) {
             try {
                 inputChannel.stop();
                 logger.info(String.format("Stopped monitoring: %s",inputChannel.getInfo()));
