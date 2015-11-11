@@ -93,8 +93,7 @@ public class ReportController {
                 break;
             default:
                 action = "UnknownIncident";
-                // todo throw exception ofzo?
-
+                //todo
         }
         return action;
     }

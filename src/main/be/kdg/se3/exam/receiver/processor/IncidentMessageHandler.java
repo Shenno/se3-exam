@@ -23,8 +23,8 @@ public class IncidentMessageHandler implements MessageHandler {
     public IncidentMessageHandler() {
         reportController = new ReportController();
         xmlToObject = new XmlToObject();
-
     }
+
     public void handleMessage(String message) {
         try {
             IncidentMessage incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
