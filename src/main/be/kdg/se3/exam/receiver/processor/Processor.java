@@ -37,7 +37,7 @@ public class Processor {
                 inputChannel.startMonitoring();
                 logger.info(String.format("Started monitoring: %s",inputChannel.getInfo()));
             } catch (ChannelException e) {
-                logger.error(e.getMessage(), e);
+                logger.fatal(e.getMessage(), e);
             }
         }
     }

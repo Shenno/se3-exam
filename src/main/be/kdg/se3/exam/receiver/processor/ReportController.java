@@ -88,12 +88,11 @@ public class ReportController {
                     action = ALL_SHIPS_IN_ZONE_ANCHOR;
                 }
                 break;
-            case "man overboord":
+            case "man over boord":
                 action = ALL_SHIPS_ANCHOR;
                 break;
             default:
-                action = "UnknownIncident";
-                //todo
+                action = "UnknownIncidentAction";
         }
         return action;
     }

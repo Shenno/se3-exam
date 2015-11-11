@@ -1,10 +1,7 @@
 package be.kdg.se3.exam.receiver.broker;
 
-import be.kdg.se3.exam.receiver.database.Database;
 import be.kdg.se3.exam.receiver.processor.MessageHandler;
-import be.kdg.se3.exam.receiver.processor.ShipMessageHandler;
 import com.rabbitmq.client.*;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 

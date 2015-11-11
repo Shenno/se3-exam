@@ -28,7 +28,8 @@ public class IncidentMessageHandler implements MessageHandler {
     public void handleMessage(String message) {
         try {
             IncidentMessage incidentMessage = (IncidentMessage) xmlToObject.convert(message, IncidentMessage.class);
-            if (reportController.getReportableIncidents().contains(incidentMessage.getIncidentType().toLowerCase())) {
+            String incidentType = incidentMessage.getIncidentType().toLowerCase();
+            if (reportController.getReportableIncidents().contains(incidentType)) {
                 reportController.createAndSendReport(incidentMessage);
             }
         } catch ( ConvertException e ) {

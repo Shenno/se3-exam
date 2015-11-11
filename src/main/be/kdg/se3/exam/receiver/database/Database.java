@@ -1,6 +1,5 @@
 package be.kdg.se3.exam.receiver.database;
 
-import be.kdg.se3.exam.receiver.broker.ChannelException;
 import be.kdg.se3.exam.receiver.entity.ShipMessage;
 
 /**

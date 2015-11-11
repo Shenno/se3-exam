@@ -1,10 +1,6 @@
 package be.kdg.se3.exam.receiver.converter;
 
-import be.kdg.se3.exam.receiver.broker.ChannelException;
-import be.kdg.se3.exam.receiver.entity.ShipMessage;
-import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -29,6 +25,5 @@ public class XmlToObject {
         } catch (Exception e) {
             throw new ConvertException("Error occured while converting xml to an object", e);
         }
-
     }
 }

@@ -38,7 +38,6 @@ public class OutputRabbitMQ implements OutputChannel {
         } catch (Exception e) {
             throw new ChannelException("Error occured: init() in OutputRabbitMQ", e);
         }
-
     }
 
     @Override

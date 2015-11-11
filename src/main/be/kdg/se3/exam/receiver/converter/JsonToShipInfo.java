@@ -25,8 +25,6 @@ import java.util.Collection;
  * The convert method returns a ShipInfo object matching the Json.
  */
 public class JsonToShipInfo {
-    private final Logger logger = Logger.getLogger(this.getClass());
-
     public ShipInfo convert(String json) throws ConvertException {
         try {
             JsonReader reader = Json.createReader(new StringReader(json));

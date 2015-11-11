@@ -1,8 +1,6 @@
 package be.kdg.se3.exam.receiver.converter;
 
-import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.ValidationException;
 
 import java.io.StringWriter;
 import java.io.Writer;
