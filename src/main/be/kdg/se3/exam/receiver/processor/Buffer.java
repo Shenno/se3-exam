@@ -19,8 +19,8 @@ import java.util.*;
  * It also calls the external service to receive information about a specified shipID.
  */
 public class Buffer {
-    private final int BUFFERTIME = 60; // in seconds
-    private final int SCHEDULETIME = 10; // in seconds
+    private static final int BUFFERTIME = 60; // in seconds
+    private static final int SCHEDULETIME = 10; // in seconds
     private ShipService service;
     private Map<String, ArrayList<ShipMessage>> shipMsgs = new HashMap<>();
     private Map<String, String> shipInfos = new HashMap<>();

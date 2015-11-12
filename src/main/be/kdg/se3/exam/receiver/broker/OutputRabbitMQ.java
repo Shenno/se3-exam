@@ -22,6 +22,7 @@ public class OutputRabbitMQ implements OutputChannel {
     private ConnectionFactory factory;
     private Connection connection;
     private Channel channel;
+    private static final String HOST = "localhost";
 
     public OutputRabbitMQ(String queue) {
         this.QUEUE_NAME = queue;
@@ -31,7 +32,7 @@ public class OutputRabbitMQ implements OutputChannel {
     public void init() throws ChannelException {
         try {
             factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost(HOST);
             connection = factory.newConnection();
             channel = connection.createChannel();
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);

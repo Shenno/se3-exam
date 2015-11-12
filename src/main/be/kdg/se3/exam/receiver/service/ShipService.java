@@ -19,9 +19,9 @@ import java.util.*;
  */
 public class ShipService {
     private ShipServiceProxy proxy;
-    private final String CALL = "www.services4se3.com/shipservice/";
-    private final int TIME_IN_CACHE = 60; // IN SECONDS
-    private final int RETRY = 5;
+    private static final String CALL = "www.services4se3.com/shipservice/";
+    private static final int TIME_IN_CACHE = 60; // IN SECONDS
+    private static final int RETRY = 5;
     private Map<String, String> cache = new HashMap<>();
     private final Logger logger = Logger.getLogger(this.getClass());
 

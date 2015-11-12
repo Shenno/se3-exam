@@ -22,6 +22,7 @@ public class InputRabbitMQ implements InputChannel {
     private Consumer consumer;
     private final String queue;
     private MessageHandler messageHandler;
+    private static final String HOST = "localhost";
 
 
     public InputRabbitMQ(String queueName, MessageHandler messageHandler) {
@@ -33,7 +34,7 @@ public class InputRabbitMQ implements InputChannel {
     public void init() throws ChannelException {
         try {
             factory = new ConnectionFactory();
-            factory.setHost("localhost");
+            factory.setHost(HOST);
             connection = factory.newConnection();
             channel = connection.createChannel();
             channel.queueDeclare(queue, false, false, false, null);
