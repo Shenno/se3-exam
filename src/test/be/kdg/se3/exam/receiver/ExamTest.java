@@ -14,6 +14,7 @@ public class ExamTest {
         // ETA
         ETAControllerImpl etaController = new ETAControllerImpl();
         etaController.addETAParameter("1234567", ETALogType.NEW_MSG);
+        etaController.addETAParameter("1234568", ETALogType.NEW_POS);
         // Handlers
         ShipMessageHandler shipMessageHandler = new ShipMessageHandler(etaController);
         IncidentMessageHandler incidentMessageHandler = new IncidentMessageHandler();
